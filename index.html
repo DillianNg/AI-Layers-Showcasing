@@ -3,88 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Ecosystem Layer Map</title>
+    <title>AI Ecosystem Interactive Map</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hidden-view { display: none !important; }
+        .active-view { display: block; animation: fadeIn 0.4s ease-in-out; }
         
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.2s; }
-        .glass-card:hover { border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
-        .venture-link { transition: all 0.2s ease; }
-        .venture-link:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.1); }
-        .accordion-content { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
-        .accordion-content.open { max-height: 300px; opacity: 1; }
-        .gradient-text { background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Thay đổi màu nền logo nếu logo có nền trong suốt */
+        .company-logo { background-color: #ffffff; padding: 2px; object-fit: contain; }
     </style>
 </head>
-<body class="antialiased pb-20">
+<body class="pb-20">
 
-    <header class="max-w-6xl mx-auto px-4 pt-16 pb-12 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">AI ECOSYSTEM <span class="gradient-text">LAYER MAP</span></h1>
-        <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto">The AI landscape is a full-stack ecosystem. Capital, resources, and enterprises are polarizing into these 6 core layers.</p>
-    </header>
+    <!-- Navigation Menu -->
+    <nav class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center border-b border-slate-800 sticky top-0 bg-[#0f172a]/90 backdrop-blur z-50">
+        <h1 class="text-xl font-bold cursor-pointer tracking-wider" onclick="renderView('home')">
+            <span class="text-indigo-400">AI</span> ECOSYSTEM
+        </h1>
+        <div class="space-x-6 text-sm font-medium text-slate-400">
+            <button onclick="renderView('home')" class="hover:text-white transition">Dashboard</button>
+            <button onclick="renderView('heatmap')" class="hover:text-white transition">Heatmap</button>
+        </div>
+    </nav>
 
-    <main class="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row gap-8 lg:gap-12">
-        <aside class="lg:w-1/4 flex-shrink-0">
-            <div class="sticky top-8 bg-slate-800/40 rounded-2xl p-6 border border-slate-700/50">
-                <h3 class="text-lg font-bold mb-6 text-emerald-400">Capital Flow Estimates</h3>
-                <div class="relative pl-6 border-l-2 border-slate-700 space-y-10">
-                    <div><h4 class="text-sm font-semibold text-slate-300">App & Agent Value</h4><div class="text-2xl font-bold text-white mt-1">~$60B+</div></div>
-                    <div><h4 class="text-sm font-semibold text-slate-300">Models & Orch</h4><div class="text-2xl font-bold text-white mt-1">~$90B+</div></div>
-                    <div><h4 class="text-sm font-semibold text-slate-300">Infra & Data</h4><div class="text-3xl font-extrabold text-emerald-400 mt-1">~$250B+</div></div>
-                </div>
+    <!-- Main View Container -->
+    <div id="content-area" class="max-w-5xl mx-auto px-6 py-10">
+        
+        <!-- ================= HOME VIEW ================= -->
+        <div id="view-home" class="active-view">
+            <div class="mb-12 text-center">
+                <h2 class="text-4xl font-extrabold mb-4">Market Landscape</h2>
+                <p class="text-slate-400 text-lg">The Full-Stack AI Ecosystem organized from Infrastructure to Application.</p>
             </div>
-        </aside>
-
-        <div class="lg:w-3/4 flex flex-col gap-6">
-            <!-- Layer 6 đến 1 -->
-            <div class="glass-card rounded-2xl p-6"><h2 class="text-xl font-bold mb-2 text-pink-400">L6: Application & Vertical Layer</h2><p class="text-slate-300 text-sm mb-4">End-user software and vertical solutions.</p><div class="flex gap-2"><a href="https://openai.com/chatgpt" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">ChatGPT</a><a href="https://www.midjourney.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">Midjourney</a></div></div>
-            <div class="glass-card rounded-2xl p-6"><h2 class="text-xl font-bold mb-2 text-purple-400">L5: Agent & Tools</h2><p class="text-slate-300 text-sm mb-4">Autonomous planning agents and tools.</p><div class="flex gap-2"><a href="https://www.cursor.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">Cursor</a><a href="https://www.harvey.ai" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">Harvey</a></div></div>
-            <div class="glass-card rounded-2xl p-6"><h2 class="text-xl font-bold mb-2 text-indigo-400">L4: Developer & Orchestration</h2><p class="text-slate-300 text-sm mb-4">Frameworks and observability tools.</p><div class="flex gap-2"><a href="https://www.langchain.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">LangChain</a><a href="https://www.llamaindex.ai" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">LlamaIndex</a></div></div>
-            <div class="glass-card rounded-2xl p-6"><h2 class="text-xl font-bold mb-2 text-blue-400">L3: Model / Foundation Layer</h2><p class="text-slate-300 text-sm mb-4">Core intelligence engines.</p><div class="flex gap-2"><a href="https://openai.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">OpenAI</a><a href="https://www.anthropic.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">Anthropic</a></div></div>
-            <div class="glass-card rounded-2xl p-6"><h2 class="text-xl font-bold mb-2 text-teal-400">L2: Data Layer</h2><p class="text-slate-300 text-sm mb-4">Data labeling and vector databases.</p><div class="flex gap-2"><a href="https://scale.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">Scale AI</a><a href="https://www.pinecone.io" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">Pinecone</a></div></div>
-            <div class="glass-card rounded-2xl p-6"><h2 class="text-xl font-bold mb-2 text-emerald-400">L1: Infrastructure Layer</h2><p class="text-slate-300 text-sm mb-4">Silicon, Cloud, and Energy.</p><div class="flex gap-2"><a href="https://www.nvidia.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">NVIDIA</a><a href="https://aws.amazon.com" class="venture-link bg-slate-800 px-3 py-1 rounded text-xs">AWS/GCP/Azure</a></div></div>
+            <!-- Stacked Layers L1 to L6 -->
+            <div class="flex flex-col gap-6" id="layer-grid"></div>
         </div>
-    </main>
 
-    <section class="max-w-4xl mx-auto px-4 mt-24">
-        <h2 class="text-3xl font-bold mb-10 text-center">Data Sources & FAQ</h2>
-        <div class="space-y-4">
-            <!-- 5 Câu hỏi -->
-            <script>
-                const faq = [
-                    ["Where is the data sourced from?", "Sequoia Capital's 'Generative AI: Act Two' and market reports."],
-                    ["How are investment figures estimated?", "Aggregated estimates from massive capital deployments and public CAPEX filings."],
-                    ["Why is Layer 1 capturing the most capital?", "Physical bottlenecks in compute power and energy resources drive infra spending."],
-                    ["What distinguishes Agents from Apps?", "Agents are autonomous planners; Apps typically require human prompts."],
-                    ["Will this ecosystem consolidate?", "Yes, long-term value will likely accrue at the very bottom (Infra) or the very top (Workflow)."]
-                ];
-                faq.forEach((item, index) => {
-                    document.write(`
-                        <div class="border border-slate-700 rounded-lg bg-slate-800/50">
-                            <button class="w-full text-left px-6 py-4 font-semibold flex justify-between items-center" onclick="toggleAccordion(this)">
-                                ${item[0]} <i data-lucide="chevron-down" class="w-5 h-5"></i>
-                            </button>
-                            <div class="accordion-content px-6"><p class="py-4 text-slate-300 text-sm">${item[1]}</p></div>
-                        </div>
-                    `);
-                });
-            </script>
+        <!-- ================= DETAIL VIEW ================= -->
+        <div id="view-detail" class="hidden-view">
+            <button onclick="renderView('home')" class="mb-8 flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-medium transition">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Landscape
+            </button>
+            <div id="detail-content"></div>
         </div>
-    </section>
+
+        <!-- ================= HEATMAP VIEW ================= -->
+        <div id="view-heatmap" class="hidden-view">
+            <h2 class="text-3xl font-bold mb-6">Investment Heatmap</h2>
+            <div class="glass-card p-16 rounded-2xl text-center text-slate-500 border border-dashed border-slate-600">
+                <i data-lucide="map" class="w-12 h-12 mx-auto mb-4 opacity-50"></i>
+                <p>Visualizing global AI capital distribution by layer density.</p>
+                <p class="text-sm mt-2">Data visualization module under construction.</p>
+            </div>
+        </div>
+    </div>
 
     <script>
-        lucide.createIcons();
-        function toggleAccordion(button) {
-            const content = button.nextElementSibling;
-            content.classList.toggle('open');
-            button.querySelector('i').style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        // Dữ liệu JSON chuẩn xác của bạn
+        const aiData = {
+          "layers": [
+            {
+              "id": "infrastructure",
+              "name": "Infrastructure",
+              "color": "#10b981", // Emerald
+              "description": "The foundational compute, cloud, and hardware layer powering all AI workloads — from GPU clusters to data centers.",
+              "fundingStatus": "Hyper Growth",
+              "funding": "$480B",
+              "companies": [
+                { "name": "NVIDIA", "desc": "Dominant GPU manufacturer powering AI training and inference globally", "valuation": "$3.2T", "year": 1993, "url": "https://nvidia.com", "stage": "Public" },
+                { "name": "Microsoft Azure", "desc": "Enterprise cloud platform with deep OpenAI integration and AI services", "valuation": "$3.1T", "year": 1975, "url": "https://azure.microsoft.com", "stage": "Public" },
+                { "name": "Google Cloud", "desc": "Cloud platform with TPUs and Vertex AI for enterprise ML workloads", "valuation": "$2.3T", "year": 1998, "url": "https://cloud.google.com", "stage": "Public" },
+                { "name": "Amazon AWS", "desc": "World's largest cloud provider with SageMaker and Bedrock AI services", "valuation": "$2.0T", "year": 1994, "url": "https://aws.amazon.com", "stage": "Public" },
+                { "name": "CoreWeave", "desc": "Specialized GPU cloud for AI/ML workloads with massive NVIDIA cluster", "valuation": "$23B", "year": 2017, "url": "https://coreweave.com", "stage": "Public" },
+                { "name": "Lambda Labs", "desc": "GPU cloud and on-prem servers built exclusively for deep learning", "valuation": "$1.5B", "year": 2012, "url": "https://lambdalabs.com", "stage": "Series C" },
+                { "name": "Together AI", "desc": "Decentralized cloud for running and fine-tuning open-source AI models", "valuation": "$1.25B", "year": 2022, "url": "https://together.ai", "stage": "Series B" },
+                { "name": "Cerebras Systems", "desc": "Wafer-scale chip architecture delivering unprecedented AI compute density", "valuation": "$4.25B", "year": 2016, "url": "https://cerebras.net", "stage": "Pre-IPO" },
+                { "name": "Groq", "desc": "LPU inference engine delivering ultra-fast token generation at scale", "valuation": "$2.8B", "year": 2016, "url": "https://groq.com", "stage": "Series D" },
+                { "name": "Vast.ai", "desc": "Marketplace for GPU compute connecting providers and AI developers", "valuation": "$350M", "year": 2017, "url": "https://vast.ai", "stage": "Series B" }
+              ],
+              "news": [
+                { "title": "NVIDIA Blackwell Ultra GPUs Ship to Major Cloud Providers", "date": "2025-04-10", "summary": "NVIDIA begins volume shipments of Blackwell Ultra B200 GPUs, promising 2x inference throughput over previous H100 generation.", "link": "https://nvidia.com/blackwell" },
+                { "title": "CoreWeave Raises $1.5B in Largest GPU Cloud Round", "date": "2025-03-22", "summary": "CoreWeave closes massive funding round to expand its specialized AI infrastructure across North America and Europe.", "link": "https://coreweave.com" },
+                { "title": "Microsoft Commits $80B to AI Data Centers in 2025", "date": "2025-02-14", "summary": "Microsoft announces its largest-ever infrastructure investment to support growing Azure OpenAI Service demand.", "link": "https://microsoft.com" }
+              ]
+            },
+            {
+              "id": "model",
+              "name": "Model",
+              "color": "#3b82f6", // Blue
+              "description": "Foundation models, LLMs, and multimodal AI systems forming the intelligence core of modern AI applications.",
+              "fundingStatus": "Exponential",
+              "funding": "$320B",
+              "companies": [
+                { "name": "OpenAI", "desc": "Creator of GPT-4 and o3, the most widely deployed AI models globally", "valuation": "$300B", "year": 2015, "url": "https://openai.com", "stage": "Private" },
+                { "name": "Anthropic", "desc": "Safety-focused AI lab building Claude — advanced reasoning and safety alignment leader", "valuation": "$61B", "year": 2021, "url": "https://anthropic.com", "stage": "Private" },
+                { "name": "Google DeepMind", "desc": "Alphabet's AI research arm, creators of Gemini Ultra and AlphaCode", "valuation": "$2.3T", "year": 2010, "url": "https://deepmind.google", "stage": "Subsidiary" },
+                { "name": "xAI", "desc": "Elon Musk's AI company developing Grok models with real-time X integration", "valuation": "$50B", "year": 2023, "url": "https://x.ai", "stage": "Private" },
+                { "name": "Mistral AI", "desc": "European AI lab producing efficient open and proprietary frontier models", "valuation": "$6.2B", "year": 2023, "url": "https://mistral.ai", "stage": "Series B" },
+                { "name": "Cohere", "desc": "Enterprise-focused LLM platform with strong retrieval and embedding models", "valuation": "$5.5B", "year": 2019, "url": "https://cohere.com", "stage": "Series D" }
+              ],
+              "news": [
+                { "title": "OpenAI o3 Surpasses PhD-Level Performance on Scientific Benchmarks", "date": "2025-04-15", "summary": "OpenAI's reasoning model o3 achieves unprecedented scores on graduate-level STEM evaluations, marking new capability frontier.", "link": "https://openai.com/o3" },
+                { "title": "Anthropic Claude 4 Introduces Extended Thinking Mode", "date": "2025-04-01", "summary": "Claude 4 launches with breakthrough extended context reasoning and improved code generation across complex multi-step tasks.", "link": "https://anthropic.com/claude" }
+              ]
+            },
+            {
+              "id": "integration",
+              "name": "Integration",
+              "color": "#8b5cf6", // Violet
+              "description": "Middleware, APIs, and orchestration platforms connecting AI models to existing enterprise systems and workflows.",
+              "fundingStatus": "Accelerating",
+              "funding": "$85B",
+              "companies": [
+                { "name": "LangChain", "desc": "Most widely adopted framework for building LLM-powered applications and agents", "valuation": "$200M", "year": 2022, "url": "https://langchain.com", "stage": "Series A" },
+                { "name": "Zapier AI", "desc": "No-code automation platform with AI capabilities connecting 6000+ apps", "valuation": "$5B", "year": 2011, "url": "https://zapier.com", "stage": "Private" },
+                { "name": "Databricks", "desc": "Unified analytics and AI platform for data engineering and ML at enterprise scale", "valuation": "$62B", "year": 2013, "url": "https://databricks.com", "stage": "Series J" },
+                { "name": "Weights and Biases", "desc": "MLOps platform for experiment tracking, model versioning, and collaboration", "valuation": "$1.25B", "year": 2017, "url": "https://wandb.ai", "stage": "Series C" },
+                { "name": "Pinecone", "desc": "Managed vector database purpose-built for production AI applications", "valuation": "$750M", "year": 2019, "url": "https://pinecone.io", "stage": "Series B" }
+              ],
+              "news": [
+                { "title": "LangChain LangGraph 2.0 Enables Multi-Agent Coordination", "date": "2025-04-08", "summary": "New stateful agent orchestration framework allows complex multi-agent workflows with persistent memory and human-in-the-loop approval.", "link": "https://langchain.com" },
+                { "title": "Pinecone Launches Serverless Vector DB with Pay-Per-Query", "date": "2025-02-25", "summary": "New serverless architecture eliminates idle infrastructure costs, making vector search accessible to startups and enterprises alike.", "link": "https://pinecone.io" }
+              ]
+            },
+            {
+              "id": "security",
+              "name": "Security",
+              "color": "#ef4444", // Red
+              "description": "AI safety, governance, red-teaming, and cybersecurity platforms ensuring safe and compliant AI deployment.",
+              "fundingStatus": "Emerging",
+              "funding": "$42B",
+              "companies": [
+                { "name": "Protect AI", "desc": "AI/ML security platform scanning model supply chains for vulnerabilities and threats", "valuation": "$700M", "year": 2022, "url": "https://protectai.com", "stage": "Series B" },
+                { "name": "Robust Intelligence", "desc": "AI risk management platform with automated red-teaming and model validation", "valuation": "$500M", "year": 2019, "url": "https://robustintelligence.com", "stage": "Series C" },
+                { "name": "HiddenLayer", "desc": "Machine learning detection and response platform protecting AI models from attacks", "valuation": "$250M", "year": 2022, "url": "https://hiddenlayer.com", "stage": "Series B" },
+                { "name": "Lakera AI", "desc": "Real-time LLM security layer blocking prompt injections and jailbreak attempts", "valuation": "$80M", "year": 2022, "url": "https://lakera.ai", "stage": "Series A" }
+              ],
+              "news": [
+                { "title": "NIST Releases AI Risk Management Framework 2.0", "date": "2025-04-05", "summary": "Updated federal guidelines mandate AI security controls for government contractors, accelerating enterprise adoption of AI governance tools.", "link": "https://nist.gov/ai" },
+                { "title": "Protect AI Discovers Critical Vulnerabilities in HuggingFace Models", "date": "2025-03-20", "summary": "Security researchers identify 150+ malicious models on popular ML hub, highlighting urgent need for model supply chain security.", "link": "https://protectai.com" }
+              ]
+            },
+            {
+              "id": "monetization",
+              "name": "Monetization",
+              "color": "#f97316", // Orange
+              "description": "Revenue models, API marketplaces, and business platforms enabling AI companies to generate sustainable commercial returns.",
+              "fundingStatus": "Maturing",
+              "funding": "$65B",
+              "companies": [
+                { "name": "Scale AI", "desc": "Data labeling and AI infrastructure platform essential for training frontier models", "valuation": "$14B", "year": 2016, "url": "https://scale.com", "stage": "Series F" },
+                { "name": "Hugging Face", "desc": "Open-source AI platform and model hub with 500K+ models and enterprise subscriptions", "valuation": "$4.5B", "year": 2016, "url": "https://huggingface.co", "stage": "Series D" },
+                { "name": "Replicate", "desc": "Cloud API platform for running ML models with per-second GPU billing", "valuation": "$350M", "year": 2019, "url": "https://replicate.com", "stage": "Series B" },
+                { "name": "Stability AI", "desc": "Open generative AI models with API access and enterprise licensing programs", "valuation": "$1B", "year": 2019, "url": "https://stability.ai", "stage": "Series A" }
+              ],
+              "news": [
+                { "title": "Scale AI Secures $1B US Government Contract for Data Labeling", "date": "2025-04-18", "summary": "Landmark federal contract cements Scale AI's position as the primary data annotation partner for US defense AI programs.", "link": "https://scale.com" },
+                { "title": "Hugging Face Reaches $100M ARR with Enterprise Tier Growth", "date": "2025-03-25", "summary": "Open AI platform reports milestone revenue driven by Enterprise Hub subscriptions and on-premise deployment licenses.", "link": "https://huggingface.co" }
+              ]
+            },
+            {
+              "id": "application",
+              "name": "Application",
+              "color": "#ec4899", // Pink
+              "description": "Consumer and enterprise AI applications delivering direct value across productivity, creativity, healthcare, and education.",
+              "fundingStatus": "Rapid Scale",
+              "funding": "$210B",
+              "companies": [
+                { "name": "Cursor", "desc": "AI-powered code editor with deep codebase understanding and pair programming", "valuation": "$9.9B", "year": 2022, "url": "https://cursor.com", "stage": "Series C" },
+                { "name": "Midjourney", "desc": "Leading AI image generation platform used by 20M+ creative professionals", "valuation": "$10B", "year": 2021, "url": "https://midjourney.com", "stage": "Private" },
+                { "name": "Perplexity AI", "desc": "AI-native search engine combining LLMs with real-time web access", "valuation": "$9B", "year": 2022, "url": "https://perplexity.ai", "stage": "Series D" },
+                { "name": "Character.AI", "desc": "Personalized AI character platform with 20M daily active users worldwide", "valuation": "$5B", "year": 2021, "url": "https://character.ai", "stage": "Series C" },
+                { "name": "Harvey AI", "desc": "AI legal platform trusted by elite law firms for research and document drafting", "valuation": "$3B", "year": 2022, "url": "https://harvey.ai", "stage": "Series D" }
+              ],
+              "news": [
+                { "title": "Cursor Hits $500M ARR, Becomes Fastest-Growing Dev Tool", "date": "2025-04-12", "summary": "AI code editor Cursor reaches revenue milestone in under 18 months, surpassing all traditional IDEs in growth velocity.", "link": "https://cursor.com" },
+                { "title": "Perplexity Launches Shopping and Transaction Layer", "date": "2025-03-30", "summary": "Perplexity introduces AI-powered shopping with direct purchase capability, challenging traditional e-commerce search channels.", "link": "https://perplexity.ai" }
+              ]
+            }
+          ]
+        };
+
+        // Hàm hỗ trợ lấy Domain để fetch Logo
+        function getDomain(url) {
+            try { return new URL(url).hostname; } catch(e) { return ''; }
         }
+
+        // Đổi view và scroll lên đầu trang
+        function renderView(viewId) {
+            document.querySelectorAll('#content-area > div').forEach(div => div.classList.add('hidden-view'));
+            document.getElementById('view-' + viewId).classList.remove('hidden-view');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render cấu trúc lớp 1 đến 6 (Home View)
+        function renderHome() {
+            const grid = document.getElementById('layer-grid');
+            
+            // Render theo thứ tự trong mảng JSON (tương ứng L1 đến L6)
+            grid.innerHTML = aiData.layers.map((l, index) => {
+                const layerNum = index + 1; // Tạo số thứ tự Layer 1 -> 6
+                
+                return `
+                <div class="glass-card p-6 md:p-8 rounded-2xl cursor-pointer hover:border-slate-400 transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6" onclick="renderDetail('${l.id}')">
+                    <div class="flex-1">
+                        <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-3 bg-slate-800" style="color: ${l.color}; border: 1px solid ${l.color}40">
+                            LAYER ${layerNum}
+                        </div>
+                        <h2 class="text-3xl font-bold mb-2">${l.name}</h2>
+                        <p class="text-slate-400 text-sm md:text-base">${l.description}</p>
+                    </div>
+                    
+                    <div class="md:text-right border-t border-slate-700 md:border-none pt-4 md:pt-0">
+                        <div class="text-xs text-slate-500 uppercase tracking-wider mb-1 font-semibold">${l.fundingStatus}</div>
+                        <div class="text-3xl font-extrabold text-white">${l.funding}</div>
+                        <div class="text-sm text-indigo-400 mt-2 flex items-center md:justify-end gap-1 group-hover:text-indigo-300">
+                            Explore Companies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+            
+            lucide.createIcons();
+        }
+
+        // Render Giao diện chi tiết với Logo thực tế
+        function renderDetail(id) {
+            const layer = aiData.layers.find(l => l.id === id);
+            const container = document.getElementById('detail-content');
+            
+            // Xử lý các thẻ công ty (Kèm tự động lấy logo Clearbit hoặc UI-Avatar)
+            const companiesHtml = layer.companies.map(c => {
+                const domain = getDomain(c.url);
+                // Nguồn Logo chính: Clearbit. Nguồn dự phòng (onerror): UI Avatars tạo ảnh bằng chữ cái đầu.
+                const logoSrc = domain ? `https://logo.clearbit.com/${domain}` : `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=random`;
+                
+                return `
+                <div class="glass-card p-5 rounded-xl flex flex-col h-full hover:bg-slate-800/80 transition-colors">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="${logoSrc}" 
+                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=random';" 
+                             class="w-12 h-12 rounded-lg company-logo shadow-sm" alt="${c.name} logo">
+                        <div>
+                            <h4 class="font-bold text-lg text-white">${c.name}</h4>
+                            <p class="text-xs text-slate-400">${c.stage} • Est. ${c.year}</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-300 flex-grow mb-5 leading-relaxed">${c.desc}</p>
+                    <div class="border-t border-slate-700/50 pt-3 flex justify-between items-center mt-auto">
+                        <div>
+                            <span class="text-xs text-slate-500 block">Valuation</span>
+                            <span class="font-bold text-emerald-400">${c.valuation}</span>
+                        </div>
+                        <a href="${c.url}" target="_blank" class="px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 text-xs rounded-md transition-colors flex items-center gap-1 font-medium">
+                            Website <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            // Xử lý phần Tin tức
+            const newsHtml = layer.news.map(n => `
+                <a href="${n.link}" target="_blank" class="glass-card p-5 rounded-xl block hover:border-slate-500 transition-colors group">
+                    <div class="flex items-start justify-between gap-4 mb-2">
+                        <h4 class="font-bold text-white group-hover:text-indigo-300 transition-colors">${n.title}</h4>
+                        <span class="text-xs font-mono text-slate-500 whitespace-nowrap bg-slate-800 px-2 py-1 rounded">${n.date}</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">${n.summary}</p>
+                </a>
+            `).join('');
+
+            // Lắp ráp toàn bộ trang Detail
+            container.innerHTML = `
+                <div class="mb-10 pb-8 border-b border-slate-800">
+                    <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 bg-slate-800" style="color: ${layer.color}; border: 1px solid ${layer.color}40">
+                        ${layer.name.toUpperCase()} LAYER
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">${layer.name}</h2>
+                    <p class="text-slate-400 text-lg md:text-xl max-w-3xl leading-relaxed">${layer.description}</p>
+                </div>
+                
+                <div class="mb-14">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="building-2" class="w-6 h-6 text-slate-400"></i> Top Companies</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${companiesHtml}
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="newspaper" class="w-6 h-6 text-slate-400"></i> Latest Developments</h3>
+                    <div class="space-y-4">
+                        ${newsHtml}
+                    </div>
+                </div>
+            `;
+            
+            renderView('detail');
+            lucide.createIcons(); // Re-init icons cho các thẻ vừa được render
+        }
+
+        // Khởi chạy khi load trang
+        renderHome();
     </script>
 </body>
 </html>

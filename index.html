@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Full-Stack Tech Stack - Bản đồ Hệ Sinh Thái Phân Tầng AI">
+    <title>AI Full-Stack Tech Stack - Hệ Sinh Thái Phân Tầng AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc; /* Slate 50 */
+        }
+        
+        .layer-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .layer-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .layer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s ease-in-out;
+        }
+
+        .layer-card:hover::before {
+            left: 100%;
+        }
+
+        .glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .layer-card:hover .glow {
+            opacity: 1;
+        }
+
+        .content-z {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Flow lines for money movement */
+        .flow-line {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, transparent, #10b981, transparent);
+            background-size: 100% 200%;
+            animation: flowMoney 2s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes flowMoney {
+            0% { background-position: 0 -100%; }
+            100% { background-position: 0 100%; }
+        }
+
+        .money-flow-indicator {
+            position: absolute;
+            left: -40px;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 30px;
+            padding: 20px 0;
+        }
+
+        .dollar-icon {
+            color: #10b981; /* Emerald 500 */
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+            animation: pulseIcon 2s infinite;
+        }
+
+        @keyframes pulseIcon {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.9)); }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Custom Scrollbar for details modal */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; 
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex flex-col items-center relative overflow-x-hidden">
+
+    <header class="text-center max-w-4xl mx-auto mb-10 mt-4 relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 tracking-tight">
+            AI Full-Stack Tech Stack
+        </h1>
+        <p class="text-slate-300 text-lg md:text-xl font-light mb-6">
+            Hệ sinh thái phân tầng định hình thế giới trí tuệ nhân tạo
+        </p>
+        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 backdrop-blur-sm text-left shadow-lg">
+            <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+                Thế giới AI hiện tại không còn là một khái niệm chung chung mà đã định hình thành một Hệ sinh thái phân tầng vô cùng rõ ràng và chặt chẽ. Dòng tiền, tài nguyên công nghệ và các doanh nghiệp đang <span class="text-emerald-400 font-semibold">phân cực rất mạnh</span> vào 6 layer cốt lõi dưới đây.
+            </p>
+        </div>
+    </header>
+
+    <main class="w-full max-w-5xl mx-auto relative flex">
+        
+        <!-- Money Flow Sidebar Indicator -->
+        <div class="hidden md:flex money-flow-indicator z-0 border-r border-slate-700/50 pr-4 mr-6 relative">
+            <!-- Top Flow (Layers 6 & 5) -->
+            <div class="flex flex-col items-center gap-2 h-1/3">
+                <div class="text-emerald-400 font-bold text-sm mb-1 whitespace-nowrap -ml-4">Dòng tiền dồn mạnh</div>
+                <svg class="w-8 h-8 dollar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="h-full w-1 bg-gradient-to-b from-emerald-500/80 to-transparent rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+            </div>
+            
+            <!-- Middle Gap (Layers 4, 3, 2) -->
+            <div class="h-1/3 flex items-center justify-center">
+                <div class="text-slate-500 text-xs text-center -ml-4 transform -rotate-90 whitespace-nowrap">Bánh kẹp giá trị</div>
+            </div>
+
+            <!-- Bottom Flow (Layer 1) -->
+            <div class="flex flex-col items-center gap-2 h-1/3 justify-end">
+                <div class="h-full w-1 bg-gradient-to-t from-emerald-500/80 to-transparent rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                <svg class="w-8 h-8 dollar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="text-emerald-400 font-bold text-sm mt-1 whitespace-nowrap -ml-4 text-center">Đầu tư bắt buộc<br>(Hạ tầng)</div>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-4 relative z-10" id="layers-container">
+            <!-- Layers will be injected here via JS to handle animation and dynamic rendering -->
+        </div>
+    </main>
+
+    <!-- Modal for Detailed View -->
+    <div id="detail-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 transition-transform duration-300 relative" id="modal-content">
+            
+            <button id="close-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 p-2 rounded-full transition-colors z-20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div class="p-0">
+                <div id="modal-header" class="p-6 md:p-8 rounded-t-2xl relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-20 bg-pattern"></div> <!-- Decorative bg -->
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span id="modal-layer-num" class="bg-black/30 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-bold tracking-wider"></span>
+                            <span id="modal-layer-en" class="text-white/70 text-sm uppercase tracking-wider font-semibold"></span>
+                        </div>
+                        <h2 id="modal-title" class="text-3xl md:text-4xl font-bold text-white mb-3"></h2>
+                        <p id="modal-desc" class="text-lg text-white/90 font-medium italic"></p>
+                    </div>
+                </div>
+                
+                <div class="p-6 md:p-8 bg-slate-900/50">
+                    <div id="modal-details" class="space-y-6">
+                        <!-- Content injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data Definition ---
+        const aiLayersData = [
+            {
+                id: 6,
+                title_vi: "Tầng Ứng Dụng & Giải Pháp Chuyên Sâu",
+                title_en: "Application & Vertical Layer",
+                short_desc: "Nơi người dùng cuối và doanh nghiệp trả tiền cho kết quả.",
+                color_class: "from-purple-600 to-pink-600",
+                bg_class: "bg-purple-900/20 border-purple-500/30",
+                text_color: "text-purple-300",
+                icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>`,
+                money_flow: true,
+                details: [
+                    {
+                        title: "Ứng dụng đại chúng (Horizontal Apps)",
+                        content: "Giải quyết các nhu cầu chung về sáng tạo nội dung, hình ảnh, video, văn phòng.",
+                        examples: ["ChatGPT", "Midjourney", "Claude.ai", "Sora"]
+                    },
+                    {
+                        title: "Giải pháp chuyên sâu (Vertical Solutions)",
+                        content: "Nơi tạo ra giá trị thương mại bền vững nhất. AI được đóng gói thành giải pháp giải quyết triệt để 'nỗi đau' ngành cụ thể.",
+                        examples: ["AI chẩn đoán y khoa", "Robo-advisor (Tài chính)", "Thiết kế game asset tự động", "Bảo trì dự đoán (Nhà máy)"]
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title_vi: "Tầng Đại Lý & Công Cụ Tự Trị",
+                title_en: "Agent & Tools Layer",
+                short_desc: "Bước nhảy vọt từ 'AI phản hồi' sang 'AI hành động'.",
+                color_class: "from-indigo-600 to-purple-600",
+                bg_class: "bg-indigo-900/20 border-indigo-500/30",
+                text_color: "text-indigo-300",
+                icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`,
+                money_flow: true,
+                details: [
+                    {
+                        title: "Bản chất (Agentic AI)",
+                        content: "AI không chỉ ngồi chờ prompt. Chúng có khả năng tự lên kế hoạch (Planning), tự chia nhỏ tác vụ, tự sửa sai và tương tác với các phần mềm khác để hoàn thành mục tiêu lớn.",
+                        examples: ['VD: "Nghiên cứu đối thủ A, lập bảng so sánh và gửi email báo cáo"']
+                    },
+                    {
+                        title: "Hệ sinh thái",
+                        content: "Mạng lưới các đại lý phối hợp và công cụ hỗ trợ sâu.",
+                        examples: ["Agent Swarm (Mạng lưới đa đại lý)", "Cursor/Copilot (Tự code)", "Trợ lý RPA (Tự động hóa)"]
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title_vi: "Tầng Điều Phối & HST Lập Trình",
+                title_en: "Developer & Orchestration Layer",
+                short_desc: "Cầu nối biến 'bộ não' tĩnh thành hệ thống có khả năng hành động.",
+                color_class: "from-blue-600 to-indigo-600",
+                bg_class: "bg-blue-900/20 border-blue-500/30",
+                text_color: "text-blue-300",
+                icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>`,
+                money_flow: false,
+                details: [
+                    {
+                        title: "Framework kết nối",
+                        content: "Giúp nhà phát triển nạp dữ liệu riêng của họ vào AI.",
+                        examples: ["LangChain", "LlamaIndex"]
+                    },
+                    {
+                        title: "Giao thức kết nối (MCP)",
+                        content: "Model Context Protocol - Chuẩn giao thức mới giúp AI đọc/ghi dữ liệu bảo mật và tương tác trực tiếp với hệ thống máy tính, IoT.",
+                        examples: []
+                    },
+                    {
+                        title: "AI Trust, Safety & Observability",
+                        content: "Các công cụ giám sát, đảm bảo an toàn.",
+                        examples: ["Phát hiện ảo tưởng (hallucination)", "Bảo mật dữ liệu", "Kiểm soát chi phí API"]
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title_vi: "Tầng Mô Hình Nền Tảng",
+                title_en: "Model / Foundation Layer",
+                short_desc: "Nơi sinh ra các 'bộ não' AI, định hình trí tuệ nhân tạo.",
+                color_class: "from-cyan-600 to-blue-600",
+                bg_class: "bg-cyan-900/20 border-cyan-500/30",
+                text_color: "text-cyan-300",
+                icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>`,
+                money_flow: false,
+                details: [
+                    {
+                        title: "Các Frontier Models (Mô hình biên giới)",
+                        content: "Các mô hình ngôn ngữ lớn (LLM) và đa phương thức (Multimodal) hàng đầu.",
+                        examples: ["GPT-4/GPT-5 (OpenAI)", "Claude 3.5/4 (Anthropic)", "Gemini (Google)", "Llama (Meta)"]
+                    },
+                    {
+                        title: "Bước ngoặt thuật toán (DeepSeek Paradigm)",
+                        content: "Chuyển từ 'đốt tiền' phần cứng sang tối ưu thuật toán.",
+                        examples: ["Kiến trúc MoE (Mixture of Experts)", "Xử lý suy luận (Reasoning)", "Cắt giảm chi phí vận hành (inference cost)"]
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title_vi: "Tầng Dữ Liệu",
+                title_en: "Data Layer",
+                short_desc: "'Nhiên liệu thô' quyết định trần năng lực và độ chính xác của AI.",
+                color_class: "from-teal-600 to-cyan-600",
+                bg_class: "bg-teal-900/20 border-teal-500/30",
+                text_color: "text-teal-300",
+                icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>`,
+                money_flow: false,
+                details: [
+                    {
+                        title: "Sự dịch chuyển lớn",
+                        content: "Khi dữ liệu Internet cạn kiệt, tập trung chuyển sang dữ liệu đặc thù và tự tạo.",
+                        examples: ["Dữ liệu chuyên ngành (Vertical Corpora): Y tế, Pháp lý...", "Dữ liệu tổng hợp (Synthetic Data) do AI tự tạo"]
+                    },
+                    {
+                        title: "Công cụ xử lý & Lưu trữ",
+                        content: "Hệ thống chuẩn bị dữ liệu phục vụ huấn luyện và kiến trúc RAG.",
+                        examples: ["Data Labeling & Cleaning", "Vector Databases (Pinecone, Milvus)"]
+                    }
+                ]
+            },
+            {
+                id: 1,
+                title_vi: "Tầng Hạ Tầng",
+                title_en: "Infrastructure Layer",
+                short_desc: "'Nhà máy điện' và 'Đường cao tốc' của toàn bộ thế giới AI.",
+                color_class: "from-emerald-600 to-teal-600",
+                bg_class: "bg-emerald-900/20 border-emerald-500/30",
+                text_color: "text-emerald-300",
+                icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>`,
+                money_flow: true,
+                details: [
+                    {
+                        title: "Phần cứng cốt lõi (Chips & Hardware)",
+                        content: "Các chip xử lý hiệu năng cao được tối ưu riêng cho ma trận toán học.",
+                        examples: ["NVIDIA GPU & CUDA (Độc tôn)", "Google TPU", "NPU cho AI PC", "Chip nội địa tối ưu riêng"]
+                    },
+                    {
+                        title: "Điện toán đám mây & Lưu trữ",
+                        content: "Các trung tâm dữ liệu khổng lồ (Hyperscale) cung cấp tài nguyên linh hoạt.",
+                        examples: ["AWS", "Microsoft Azure", "Google Cloud", "Oracle"]
+                    },
+                    {
+                        title: "Hạ tầng năng lượng",
+                        content: "Yếu tố thiết yếu mới do AI tiêu thụ lượng điện khổng lồ.",
+                        examples: ["Năng lượng hạt nhân", "Năng lượng sạch"]
+                    }
+                ]
+            }
+        ];
+
+        // --- Streamlined Rendering Logic ---
+        const container = document.getElementById('layers-container');
+        const modal = document.getElementById('detail-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeBtn = document.getElementById('close-modal');
+
+        // Function to create a layer card HTML
+        function createLayerCard(layer, index) {
+            // Tính toán delay cho animation xếp chồng
+            const delay = index * 0.15;
+            
+            // Xử lý visual marker cho dòng tiền
+            const moneyBadge = layer.money_flow 
+                ? `<div class="absolute -right-2 -top-2 bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)] z-20 flex items-center gap-1 animate-pulse">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    Hot
+                   </div>` 
+                : '';
+
+            return `
+                <div class="layer-card w-full border ${layer.bg_class} rounded-xl p-5 md:p-6 backdrop-blur-sm relative"
+                     style="animation: slideInUp 0.6s ease-out ${delay}s both;"
+                     onclick="openModal(${layer.id})">
+                    
+                    <div class="glow"></div>
+                    ${moneyBadge}
+                    
+                    <div class="content-z flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
+                        <!-- Number Tag -->
+                        <div class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-lg bg-gradient-to-br ${layer.color_class} flex items-center justify-center text-white font-bold text-xl shadow-lg relative overflow-hidden">
+                            <span class="relative z-10 opacity-90 text-sm md:text-base">L${layer.id}</span>
+                            <div class="absolute inset-0 bg-black/20"></div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="flex-1">
+                            <div class="flex flex-col md:flex-row md:items-end gap-1 md:gap-3 mb-1">
+                                <h3 class="text-xl md:text-2xl font-bold text-white tracking-tight">${layer.title_vi}</h3>
+                                <span class="${layer.text_color} text-sm font-medium hidden md:block pb-1">${layer.title_en}</span>
+                            </div>
+                            <span class="${layer.text_color} text-xs font-medium md:hidden block mb-2">${layer.title_en}</span>
+                            <p class="text-slate-400 text-sm md:text-base line-clamp-2">${layer.short_desc}</p>
+                        </div>
+                        
+                        <!-- Icon -->
+                        <div class="hidden md:flex flex-shrink-0 w-12 h-12 rounded-full bg-slate-800/50 border border-slate-600/50 items-center justify-center text-slate-300">
+                            ${layer.icon}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add keyframes dynamically
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes slideInUp {
+                from { opacity: 0; transform: translateY(40px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Render all layers
+        let htmlStr = '';
+        aiLayersData.forEach((layer, index) => {
+            htmlStr += createLayerCard(layer, index);
+        });
+        container.innerHTML = htmlStr;
+
+        // --- Modal Logic ---
+        function openModal(id) {
+            const layer = aiLayersData.find(l => l.id === id);
+            if (!layer) return;
+
+            // Populate Modal Header
+            document.getElementById('modal-layer-num').textContent = `Layer ${layer.id}`;
+            document.getElementById('modal-layer-en').textContent = layer.title_en;
+            document.getElementById('modal-title').textContent = layer.title_vi;
+            document.getElementById('modal-desc').textContent = layer.short_desc;
+            
+            const header = document.getElementById('modal-header');
+            header.className = `p-6 md:p-8 rounded-t-2xl relative overflow-hidden bg-gradient-to-br ${layer.color_class}`;
+
+            // Populate Modal Details
+            const detailsContainer = document.getElementById('modal-details');
+            detailsContainer.innerHTML = '';
+
+            layer.details.forEach(detail => {
+                let tagsHtml = '';
+                if(detail.examples && detail.examples.length > 0) {
+                    tagsHtml = `<div class="flex flex-wrap gap-2 mt-3">` + 
+                        detail.examples.map(ex => `<span class="px-3 py-1 bg-slate-800 border border-slate-600 rounded-md text-xs text-slate-300 shadow-sm">${ex}</span>`).join('') +
+                        `</div>`;
+                }
+
+                detailsContainer.innerHTML += `
+                    <div class="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5 hover:bg-slate-800/60 transition-colors">
+                        <h4 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-white opacity-70"></span>
+                            ${detail.title}
+                        </h4>
+                        <p class="text-slate-300 text-sm leading-relaxed">${detail.content}</p>
+                        ${tagsHtml}
+                    </div>
+                `;
+            });
+
+            // Show Modal
+            modal.classList.remove('hidden');
+            // Trigger reflow
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Event Listeners for Modal
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        });
+
+        // Add mouse tracking for glow effect on cards
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.layer-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const glow = card.querySelector('.glow');
+                if (glow) {
+                    glow.style.left = `${x}px`;
+                    glow.style.top = `${y}px`;
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
